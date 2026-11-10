@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---- Brand tokens (from cup2eat-brand-colors.md, copied as-is) ---- */
+:root {
+  --green-900:#0B3B2C; --green-800:#0F4D3A; --green-700:#16634A; --green-500:#2E8B57; --green-100:#E3EFE7;
+  --gold-600:#B8862F; --gold-500:#D4A84B; --gold-300:#EBCB7E; --gold-100:#FBF1D9;
+  --cream-50:#FFFBF3; --cream-100:#F7EEDC;
+  --biscuit-400:#C8955A; --biscuit-600:#9C6B3C;
+  --choco-800:#4A2C1D; --choco-950:#2A1810;
+  --vanilla-200:#F1DFB4; --elaichi-400:#B9B25A; --elaichi-600:#8A8A3A;
+  --chai-500:#B87333; --saffron-500:#F28C28;
+
+  --grad-forest: linear-gradient(135deg,#0B3B2C 0%,#0F4D3A 45%,#16634A 100%);
+  --grad-forest-glow: radial-gradient(80% 60% at 75% 20%,rgba(212,168,75,.22) 0%,rgba(11,59,44,0) 60%),#0B3B2C;
+  --grad-gold: linear-gradient(135deg,#B8862F 0%,#D4A84B 40%,#EBCB7E 70%,#D4A84B 100%);
+  --grad-gold-text: linear-gradient(180deg,#F3D98F 0%,#D4A84B 55%,#B8862F 100%);
+  --grad-cream: linear-gradient(180deg,#FFFBF3 0%,#F7EEDC 100%);
+  --grad-biscuit: linear-gradient(160deg,#F1DFB4 0%,#C8955A 60%,#9C6B3C 100%);
+  --grad-chai: linear-gradient(120deg,#4A2C1D 0%,#9C6B3C 50%,#B87333 100%);
+  --grad-chocolate: linear-gradient(150deg,#6B3F27 0%,#4A2C1D 60%,#2A1810 100%);
+  --grad-vanilla: linear-gradient(150deg,#FFF7E3 0%,#F1DFB4 60%,#E2C68A 100%);
+  --grad-elaichi: linear-gradient(150deg,#DCD58C 0%,#B9B25A 55%,#8A8A3A 100%);
+  --grad-spotlight: radial-gradient(60% 60% at 50% 40%,rgba(235,203,126,.45) 0%,rgba(255,251,243,0) 70%);
+}
+html, body { overflow-x: clip; background: var(--cream-50); color: var(--choco-950); }
+.text-gold-gradient { background: var(--grad-gold-text); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* ---- Base ---- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 6.5rem;
+  }
+  body {
+    @apply font-sans antialiased;
+    min-width: 0;
+    text-rendering: optimizeLegibility;
+  }
+  /* Long words / URLs / emails never push the page sideways */
+  h1, h2, h3, h4, p, li, a, dd, dt, td, th, label, span, blockquote {
+    overflow-wrap: break-word;
+  }
+  img, svg, video, canvas, iframe { max-width: 100%; }
+  img, video { height: auto; }
+  h1, h2, h3 { @apply font-display; letter-spacing: -0.01em; }
+  ::selection { background: var(--gold-300); color: var(--green-900); }
+
+  :focus-visible {
+    outline: 2px solid var(--gold-500);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+}
+
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-site px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Buttons — pill radius, ≥ 48px tall */
+  .btn {
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full px-6 py-3
+      text-[0.975rem] font-semibold leading-tight transition-[transform,background-color,box-shadow,filter,color] duration-200
+      ease-out motion-reduce:transition-none;
+  }
+  .btn-primary {
+    @apply btn bg-green-800 text-cream-50 shadow-card hover:-translate-y-0.5 hover:bg-green-700 hover:shadow-lift motion-reduce:hover:translate-y-0;
+  }
+  .btn-gold {
+    @apply btn bg-grad-gold text-green-900 shadow-card hover:-translate-y-0.5 hover:brightness-105 motion-reduce:hover:translate-y-0;
+  }
+  .btn-secondary {
+    @apply btn border-[1.5px] border-green-800 bg-transparent text-green-800 hover:bg-green-100;
+  }
+  .btn-ghost-light {
+    @apply btn border-[1.5px] border-cream-50/60 bg-transparent text-cream-50 hover:border-gold-300 hover:text-gold-300;
+  }
+
+  .link {
+    @apply font-semibold text-green-800 underline decoration-[1.5px] underline-offset-4 transition-colors hover:text-gold-600;
+  }
+
+  .card {
+    @apply rounded-card border border-biscuit-600/15 bg-cream-50 shadow-card;
+  }
+  .card-hover {
+    @apply transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-lift motion-reduce:transition-none motion-reduce:hover:translate-y-0;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em];
+  }
+
+  .field-label { @apply mb-1.5 block text-sm font-semibold text-choco-950; }
+  .field {
+    @apply block min-h-[48px] w-full rounded-xl border border-biscuit-600/30 bg-cream-50 px-4 py-3 text-base text-choco-950
+      placeholder:text-choco-800/50 transition-colors focus:border-green-800 focus:outline-none focus-visible:outline-2
+      focus-visible:outline-gold-500;
+  }
+  .field[aria-invalid="true"] { @apply border-chai-500 bg-gold-100; }
+  .field-error { @apply mt-1.5 text-sm font-medium text-choco-800; }
+}
+
+/* ---- Scroll reveal (only hides content once JS is confirmed running) ---- */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease-out, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.js [data-reveal].is-visible { opacity: 1; transform: none; }
+
+/* Steam wisps on the cup illustration */
+@keyframes steam {
+  0% { transform: translateY(6px) scaleX(1); opacity: 0; }
+  30% { opacity: 0.75; }
+  100% { transform: translateY(-26px) scaleX(1.15); opacity: 0; }
+}
+.steam path { animation: steam 3.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.steam path:nth-child(2) { animation-delay: 1.2s; }
+.steam path:nth-child(3) { animation-delay: 2.4s; }
+
+/* FAQ accordion marker */
+details > summary { list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
+details[open] .faq-chevron { transform: rotate(180deg); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js [data-reveal] { opacity: 1; transform: none; transition: none; }
+  .steam path { animation: none; opacity: 0.5; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+
+/* --grad-forest-glow includes a solid colour layer, which is only valid in the
+   `background` shorthand (not `background-image`), so override the utility here. */
+.bg-grad-forest-glow { background: var(--grad-forest-glow); }
